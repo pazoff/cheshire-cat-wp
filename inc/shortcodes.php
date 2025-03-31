@@ -3,8 +3,17 @@
 function cheshire_chat_shortcode()
 {
     ob_start();
+    
+    $position = get_option('cheshire_plugin_chat_position', 'left');
+    $collapsible = get_option('cheshire_plugin_collapsible', 'off');
+    $collapsed_class = ($collapsible === 'on') ? ' cheshire-chat-collapsed' : '';
+    
     ?>
-    <div id="cheshire-chat-container">
+    <div id="cheshire-chat-container" class="cheshire-chat-position-<?php echo esc_attr($position); ?><?php echo esc_attr($collapsed_class); ?>">
+        <?php
+            $cheshire_toggle_chat_button_color = get_option('cheshire_toggle_chat_button_color', '#0078d7');
+        ?>
+        <button id="cheshire-chat-collapse-button" <?php echo ($collapsible === 'off') ? 'disabled' : ''; ?> style="background-color: <?php echo esc_attr($cheshire_toggle_chat_button_color); ?>;"><?php echo esc_attr(get_option('cheshire_chat_title', __('Toggle chat', 'cheshire-cat-wp'))); ?></button>
         <div id="cheshire-chat-messages">
             <?php \CheshireCatWp\cheshire_display_welcome_message(); ?>
         </div>

@@ -24,9 +24,15 @@ function cheshire_cat_style_page()
         update_option('cheshire_chat_text_color', sanitize_text_field($_POST['cheshire_chat_text_color']));
         update_option('cheshire_chat_user_message_color', sanitize_text_field($_POST['cheshire_chat_user_message_color']));
         update_option('cheshire_chat_bot_message_color', sanitize_text_field($_POST['cheshire_chat_bot_message_color']));
-        update_option('cheshire_chat_button_color', sanitize_text_field($_POST['cheshire_chat_button_color']));
-        update_option('cheshire_chat_font_family', sanitize_text_field($_POST['cheshire_chat_font_family']));
+                update_option('cheshire_toggle_chat_button_color', sanitize_text_field($_POST['cheshire_toggle_chat_button_color']));
+        		update_option('cheshire_chat_button_color', sanitize_text_field($_POST['cheshire_chat_button_color']));
+                update_option('cheshire_chat_font_family', sanitize_text_field($_POST['cheshire_chat_font_family']));
         update_option('cheshire_chat_welcome_message', sanitize_textarea_field($_POST['cheshire_chat_welcome_message'])); // Save the welcome message
+
+        // Save the options
+        update_option('cheshire_plugin_chat_position', sanitize_text_field($_POST['cheshire_plugin_chat_position']));
+        update_option('cheshire_plugin_collapsible', isset($_POST['cheshire_plugin_collapsible']) ? 'on' : 'off');
+        update_option('cheshire_chat_title', sanitize_text_field($_POST['cheshire_chat_title']));
 
         // Display a success message
         echo '<div class="notice notice-success is-dismissible"><p>' . __('Style settings saved.', 'cheshire-cat-wp') . '</p></div>';
@@ -37,9 +43,11 @@ function cheshire_cat_style_page()
     $chat_text_color = get_option('cheshire_chat_text_color', '#333333'); // Default dark gray
     $chat_user_message_color = get_option('cheshire_chat_user_message_color', '#4caf50'); // Default green
     $chat_bot_message_color = get_option('cheshire_chat_bot_message_color', '#ffffff'); // Default white
-    $chat_button_color = get_option('cheshire_chat_button_color', '#0078d7'); // Default blue
-    $chat_font_family = get_option('cheshire_chat_font_family', 'Arial, sans-serif'); // Default Arial
+        $cheshire_toggle_chat_button_color = get_option('cheshire_toggle_chat_button_color', '#0078d7'); // Default blue
+    	$chat_button_color = get_option('cheshire_chat_button_color', '#0078d7'); // Default blue
+        $chat_font_family = get_option('cheshire_chat_font_family', 'Arial, sans-serif'); // Default Arial
     $cheshire_chat_welcome_message = get_option('cheshire_chat_welcome_message', __('Hello! How can I help you?', 'cheshire-cat-wp')); // Default welcome message
+    $cheshire_chat_title = get_option('cheshire_chat_title', __('Chat', 'cheshire-cat-wp'));
     ?>
     <div class="wrap">
         <h1><?php echo esc_html(get_admin_page_title()); ?></h1>
@@ -84,13 +92,21 @@ function cheshire_cat_style_page()
                                 </td>
                             </tr>
                             <tr valign="top">
-                                <th scope="row">
-                                    <label for="cheshire_chat_button_color"><?php _e('Button Color', 'cheshire-cat-wp'); ?></label>
-                                </th>
-                                <td>
-                                    <input type="color" id="cheshire_chat_button_color" name="cheshire_chat_button_color" value="<?php echo esc_attr($chat_button_color); ?>" />
-                                </td>
-                            </tr>
+                                                             <th scope="row">
+                                                                 <label for="cheshire_toggle_chat_button_color"><?php _e('Toggle Chat Button Color', 'cheshire-cat-wp'); ?></label>
+                                                             </th>
+                                                             <td>
+                                                                 <input type="color" id="cheshire_toggle_chat_button_color" name="cheshire_toggle_chat_button_color" value="<?php echo esc_attr($chat_button_color); ?>" />
+                                                             </td>
+                                                         </tr>
+                                                         <tr valign="top">
+                                                             <th scope="row">
+                                                                 <label for="cheshire_chat_button_color"><?php _e('Send Button Color', 'cheshire-cat-wp'); ?></label>
+                                                             </th>
+                                                             <td>
+                                                                 <input type="color" id="cheshire_chat_button_color" name="cheshire_chat_button_color" value="<?php echo esc_attr($chat_button_color); ?>" />
+                                                             </td>
+                                                         </tr>
                             </tbody>
                         </table>
                     </div>
@@ -127,6 +143,41 @@ function cheshire_cat_style_page()
                             </tr>
                             </tbody>
                         </table>
+                    </div>
+                    <div class="cheshire-cat-style-settings-section">
+                        <h2><?php _e('Chat Box', 'cheshire-cat-wp'); ?></h2>
+                        <div class="cheshire-cat-settings-table-wrapper">
+                            <table class="form-table widefat striped cheshire-cat-settings-table">
+                                <tbody>
+                                <tr valign="top">
+                                    <th scope="row">
+                                        <label for="cheshire_plugin_chat_position"><?php _e('Chat Box Position', 'cheshire-cat-wp'); ?></label>
+                                    </th>
+                                    <td>
+                                        <select id="cheshire_plugin_chat_position" name="cheshire_plugin_chat_position">
+                                            <option value="left" <?php selected(get_option('cheshire_plugin_chat_position'), 'left'); ?>><?php _e('Left', 'cheshire-cat-wp'); ?></option>
+                                            <option value="right" <?php selected(get_option('cheshire_plugin_chat_position'), 'right'); ?>><?php _e('Right', 'cheshire-cat-wp'); ?></option>
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr valign="top">
+                                    <th scope="row">
+                                        <label for="cheshire_plugin_collapsible"><?php _e('Enable Collapsible Chat', 'cheshire-cat-wp'); ?></label>
+                                    </th>
+                                    <td>
+                                        <input type="checkbox" id="cheshire_plugin_collapsible" name="cheshire_plugin_collapsible" <?php checked(get_option('cheshire_plugin_collapsible'), 'on'); ?> />
+                                    </td>
+                                </tr>
+                                <tr valign="top">
+                                    <th scope="row">
+                                        <label for="cheshire_chat_title"><?php _e('Chat Box Title', 'cheshire-cat-wp'); ?></label>
+                                    </th>
+                                    <td>
+                                        <input type="text" id="cheshire_chat_title" name="cheshire_chat_title" value="<?php echo esc_attr($cheshire_chat_title); ?>" class="regular-text" />
+                                    </td>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>

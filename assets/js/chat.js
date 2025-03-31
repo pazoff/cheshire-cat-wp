@@ -65,4 +65,10 @@ jQuery(document).ready(function($) {
             }
         });
     }
+
+    // Collapse chat on button click
+    $('#cheshire-chat-collapse-button').click(function() {
+        $('#cheshire-chat-container').toggleClass('cheshire-chat-collapsed');
+    });
+
 });

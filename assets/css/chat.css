@@ -1,3 +1,7 @@
+.cheshire-chat-container {
+    resize: both;
+    overflow: auto;
+}
 /* Chat container */
 #cheshire-chat-container {
     width: 100%;
@@ -8,11 +12,62 @@
     font-family: 'Arial', sans-serif;
     overflow: hidden;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    position: fixed;
+    /*position: fixed;*/
     bottom: 20px;
     right: 20px;
     z-index: 1000;
     background-color: #fff;
+    resize: both; /* Allow resizing in both directions */
+    overflow: auto; /* Ensure content scrolls when resized */
+}
+
+/* Chat position styles */
+#cheshire-chat-container.cheshire-chat-position-left {
+    left: 20px;
+    right: auto;
+}
+
+/* Collapse button styles */
+#cheshire-chat-collapse-button {
+    background-color: #f0f0f0;
+    border: none;
+    color: #666;
+    padding: 5px 10px;
+    border-bottom: 1px solid #ddd;
+    cursor: pointer;
+    width: 100%;
+    text-align: left;
+    border-radius: 10px 10px 0 0;
+    outline: none;
+}
+
+#cheshire-chat-container h2 {
+    margin: 0;
+    padding: 5px;
+    text-align: center;
+    font-size: 0.9em;
+    font-weight: bold;
+    color: #333;
+    border-bottom: 1px solid #ddd;
+}
+
+#cheshire-chat-collapse-button:hover {
+    background-color: #e0e0e0;
+}
+
+/* Collapsed state styles */
+#cheshire-chat-container.cheshire-chat-collapsed #cheshire-chat-messages,
+#cheshire-chat-container.cheshire-chat-collapsed #cheshire-chat-input-container {
+    display: none;
+}
+
+#cheshire-chat-container.cheshire-chat-collapsed {
+    height: auto;
+}
+
+#cheshire-chat-container.cheshire-chat-collapsed #cheshire-chat-collapse-button {
+    border-bottom: none;
+    border-radius: 10px;
 }
 
 #cheshire-chat-messages {
